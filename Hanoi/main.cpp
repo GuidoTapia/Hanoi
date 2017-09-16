@@ -3,13 +3,43 @@
 //se importa la libreria windows para poder utilizar la funcion Sleep() para que la animacion sea visible
 using namespace std;
 
-const int tamano=7;//7 es el limite antes de que la impresion se descuadre se puede usar cualquier valor
+const int tamano=12;//12 es el limite antes de que la impresion se descuadre se puede usar cualquier valor
                     //teniendo en cuenta que la animacion no se notaria y que la complejidad del ejercicio es de 2^n
 int cont=0;
 /*Funcion para mover un solo bloque o ficha considerado en el caso que no exista ninguna ficha sobre ella
-se ingresa el caracter de su columna actual, la columna a la cual se debe mover el tamaño o numero de
+se ingresa el caracter de su columna actual, la columna a la cual se debe mover el tamaÃ±o o numero de
 bloque y la matriz de bloques al final de la funcion se imprime las torres despues de efectuar el movimiento
 y se contabiliza el movimiento en una variable global*/
+void mostrarTorre(int bloques[][tamano]){
+    for (int j=tamano-1;j>=0;j--){
+        for (int i=0;i<3;i++){
+            if(bloques[i][j]==0){
+                for (int k=0;k<tamano;k++){
+                    cout<<" ";
+                }
+                cout<<"|";
+                for (int k=0;k<tamano;k++){
+                    cout<<" ";
+                }
+            }else{
+                for(int k=0;k<tamano+1-bloques[i][j];k++){
+                    cout<<" ";
+                }
+                for(int k=0;k<(bloques[i][j]*2)-1;k++){
+                    if (bloques[i][j]<10){
+                        cout<<bloques[i][j];
+                    }else{
+                        cout<< (char)(55+bloques[i][j]);
+                    }
+                }
+                for(int k=0;k<tamano+1-bloques[i][j];k++){
+                    cout<<" ";
+                }
+            }
+        }
+        cout<<"\n";
+    }
+}
 void moverUno(char inicio, char fin, int bloque, int bloques[][tamano]){
     int aux = inicio-65;
     int vAux=0;
@@ -37,23 +67,11 @@ void moverUno(char inicio, char fin, int bloque, int bloques[][tamano]){
     }
     cont++;
     cout<<"________________________________________________\nMovimiento\n"<<cont<<"\n________________________________________________\n";
-    for (int j=tamano-1;j>=0;j--){
-        for (int i=0;i<3;i++){
-            if(bloques[i][j]==0){
-                cout<<"|\t";
-            }else{
-                for(int k=0;k<bloques[i][j];k++){
-                    cout<<bloques[i][j];
-                }
-                cout<<"\t";
-            }
-        }
-        cout<<"\n";
-    }
+    mostrarTorre(bloques);
     Sleep(500);
 }
-/*Funcion para mover la ficha y todas las superiores a esta, caso base cuando la ficha sea la mas pequeña,
-es decir ninguna puede estar sobre ella, se ingresa la torre de inicio, la torre de llegada, el tamaño de la
+/*Funcion para mover la ficha y todas las superiores a esta, caso base cuando la ficha sea la mas pequeÃ±a,
+es decir ninguna puede estar sobre ella, se ingresa la torre de inicio, la torre de llegada, el tamaÃ±o de la
 ficha y la matriz que representa las torres*/
 void mover(char inicio, char fin, int bloque, int bloques[][tamano]){
     if(bloque==1){
@@ -75,7 +93,7 @@ void mover(char inicio, char fin, int bloque, int bloques[][tamano]){
 int main(){
     //el algoritmo es flexible asi que permite que se traslade las fichas a cualquiera de las dos torres libres
     char cTorre;
-    cout << "Tamaño de la torre: " << tamano<< endl;
+    cout << "TamaÃ±o de la torre: " << tamano<< endl;
     cout << "A que fila desea pasarlo? B o C" << endl;
     cin >> cTorre;
     //cin >> tamano;
@@ -90,19 +108,7 @@ int main(){
         torres[2][i]=0;
     }
     cout<<"________________________________________________\nTorre Original\n________________________________________________\n";
-    for (int j=tamano-1;j>=0;j--){
-        for (int i=0;i<3;i++){
-            if(torres[i][j]==0){
-                cout<<"|\t";
-            }else{
-                for(int k=0;k<torres[i][j];k++){
-                    cout<<torres[i][j];
-                }
-                cout<<"\t";
-            }
-        }
-        cout<<"\n";
-    }
+    mostrarTorre(torres);
     Sleep(2000);
     mover('A',cTorre,tamano,torres);
     cout<<"________________________________________________\nCOMPLETADO\n________________________________________________\n";
